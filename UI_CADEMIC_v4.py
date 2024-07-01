@@ -55,7 +55,7 @@ hf_api_env = st.secrets["huggingface"]["api_key"]
 # os.environ['PINECONE_API_KEY'] = PINECONE_API_KEY
 
 
-# client = OpenAI(api_key=openai_api_key)
+client = OpenAI(api_key=openai_api_key)
 
 pc = Pinecone(api_key=pinecone_api_key)
 # pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))

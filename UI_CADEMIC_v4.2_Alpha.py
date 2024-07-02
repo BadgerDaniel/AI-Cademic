@@ -2,17 +2,40 @@ import os
 import re
 import pandas as pd
 import numpy as np
-import requests
-import json
-import warnings
-import streamlit as st
+from typing import List
 from langchain_core.prompts import PromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field, validator
+from pydantic import FieldSerializationInfo
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
 from langchain.output_parsers import RegexParser, PydanticOutputParser
+from pprint import pprint
+import random
+import warnings
+warnings.filterwarnings(action="ignore")
+import requests
+import PyPDF2
+import dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from transformers import OpenAIGPTTokenizer, OpenAIGPTModel
 from pinecone import Pinecone
+import torch
+import ftfy
+from tqdm import tqdm
+from langchain.retrievers.multi_vector import MultiVectorRetriever
+from langchain.storage import InMemoryByteStore
+# from langchain_chroma import Chroma
+from langchain_community.document_loaders import TextLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+import fitz
+from PIL import Image
+import io
+from openai import OpenAI
+import pdfplumber
+import json
+from langchain.chains import ConversationalRetrievalChain
+import streamlit as st
 
 warnings.filterwarnings(action="ignore")
 
@@ -21,35 +44,32 @@ openai_api_key = st.secrets["openai"]["api_key"]
 pinecone_api_key = st.secrets["pinecone"]["api_key"]
 pinecone_api_env = st.secrets["pinecone"]["api_env"]
 
-# Initialize Pinecone client
+client = OpenAI(api_key=openai_api_key)
+
 pc = Pinecone(api_key=pinecone_api_key)
-myindex = pc.Index('ai-cademic')
+# pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
 
-# Load dictionary embeddings
-with open(r'dicembed.json', 'r') as file:
-    dic_embed = json.load(file)
 
-# Function to get embeddings
-def get_embedding(text, model="text-embedding-ada-002"):
-    response = requests.post(
-        "https://api.openai.com/v1/embeddings",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {openai_api_key}"
-        },
-        json={
-            "input": text,
-            "model": model
-        }
-    )
-    response.raise_for_status()
-    return response.json()["data"][0]["embedding"]
+myindex=pc.Index('ai-cademic')
 
-# Function to get LLM answer
-def get_llm_answer(question, context, queryresult):
+with open (r'dicembed.json', 'r') as file:
+    dic_embed=json.load(file)
+
+
+def get_embedding(text, model="text-embedding-3-small"):
+    return client.embeddings.create(input=[text], model=model).data[0].embedding
+
+
+def get_llm_answer(question, context, api_key):
+    # Validate input parameters
+    if not api_key:
+        raise ValueError("API key is required")
+    if not question:
+        raise ValueError("Question is required")
+
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {openai_api_key}"
+        "Authorization": f"Bearer {api_key}"
     }
 
     payload = {
@@ -63,15 +83,21 @@ def get_llm_answer(question, context, queryresult):
         "max_tokens": 300
     }
 
-    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    response.raise_for_status()
+    try:
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        response.raise_for_status()  # Raise an error for bad HTTP status codes
 
-    answer_context = ""
-    for x in range(0, 1): 
-        j = dic_embed[queryresult['matches'][x]['id']]
-        answer_context += j  #+ '\n'
+        # Extract the plain text answer from the response
+        answer = response.json()['choices'][0]['message']['content'].strip()
+        return answer
 
-    return answer_context
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
+
+
+#get_llm_answer(question=user_question+instructions,context=answer_context,api_key=openai_api_key)
+
+
 
 # Instructions for context
 instructions = " Here's some context, only use it if it is relevant to answer the question, if it is not, mention that the information found did not satisfy the need of the user. The user who asked the preceding question likely has not seen this context, so adjust your answer accordingly."
@@ -83,7 +109,12 @@ def process_text(input_text):
         top_k=5,
         include_values=True
     )
-    answer_context = dic_embed[queryresult['matches'][0]['id']]
+    #answer_context = dic_embed[queryresult['matches'][0]['id']]
+    
+    answer_context=' '
+    for x in range(0,min(len(queryresult),1):
+        answer_context += str(dic_embed[queryresult['matches'][x]['id']])
+
 
     return get_llm_answer(question=input_text + instructions, context=answer_context, queryresult=queryresult)
 

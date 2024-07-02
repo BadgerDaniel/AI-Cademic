@@ -69,7 +69,7 @@ def get_llm_answer(question, context, queryresult):
     answer_context = ""
     for x in range(0, 1): 
         j = dic_embed[queryresult['matches'][x]['id']]
-        answer_context += j + '\n'
+        answer_context += j
 
     return answer_context
 

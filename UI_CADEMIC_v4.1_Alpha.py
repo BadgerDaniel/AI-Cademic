@@ -147,9 +147,9 @@ def main():
     st.title("AI-CADEMIC")
 
     # multi-line prompt and multi-line text input
-    prompt = """Hi! I'm AI-CADEMIC! Here to help you learn from Academic Articles.
-    What would you like to learn about?
-    Please provide detailed questions or topics you are interested in:"""
+    prompt = """Hi, I'm AI-CADEMIC, your go-to assistant for querying academic articles on generative AI. 
+    Ask me a question about generative AI, and I'll provide you with insights from the latest cutting-edge academic materials.
+    Whether you're seeking information on attention mechanisms, challenges in large language models, or multimodal AI, I've got you covered!"""
 
     user_input = st.text_area(prompt)
 
@@ -161,5 +161,5 @@ def main():
         # display response
         st.write('Response: ', response)
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     main()

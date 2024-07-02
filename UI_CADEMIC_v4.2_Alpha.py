@@ -99,8 +99,8 @@ def main():
     prompt = """Hi, I'm AI-CADEMIC. 
     Your go-to assistant for querying academic articles on generative AI. 
     
-    Ask me a question about generative AI, 
-    and I'll provide you with insights from relevant academic materials.
+    Ask me a question about generative AI.
+    I'll provide you with insights from relevant academic materials :)
     """
 
     #Whether you're seeking information on attention mechanisms, challenges in large language models, or multimodal AI, I've got you covered!

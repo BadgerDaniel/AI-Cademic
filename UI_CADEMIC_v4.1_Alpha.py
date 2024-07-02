@@ -146,18 +146,20 @@ def process_text(input_text):
 def main():
     st.title("AI-CADEMIC")
 
-    # txt input
-    user_input=st.text_input("Hi! I'm AI-CADEMIC! Here to help you learn from Academic Articles. \n What would you like to learn about? ")
+    # multi-line prompt and multi-line text input
+    prompt = """Hi! I'm AI-CADEMIC! Here to help you learn from Academic Articles.
+    What would you like to learn about?
+    Please provide detailed questions or topics you are interested in:"""
+
+    user_input = st.text_area(prompt)
 
     # button to submit text
     if st.button("Submit"):
-
         with st.spinner("Racking my brain.."):
-            response=process_text(user_input)
+            response = process_text(user_input)
 
         # display response
-        st.write('Response: ',response)
+        st.write('Response: ', response)
 
-
-if __name__=='__main__':
-    main()
+if _name_ == '_main_':
+    main()

@@ -110,7 +110,7 @@ def get_llm_answer(question, context, api_key):
         return {"error": str(e)}
 
 
-instructions=" Here's some context, only use it if it is relevant to answer the question, if it is not, mention that the information found did not satisfy the need of the user."
+instructions=" Here's some context, only use it if it is relevant to answer the question, if it is not, mention that the information found did not satisfy the need of the user. The user asking the question provided has likely not seen the context, so adjust your answer accordingly."
 
 #get_llm_answer(question=user_question+instructions,context=answer_context,api_key=openai_api_key)
 

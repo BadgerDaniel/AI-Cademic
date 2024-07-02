@@ -67,7 +67,7 @@ def get_llm_answer(question, context, queryresult):
     response.raise_for_status()
 
     answer_context = ""
-    for x in range(0, 3): 
+    for x in range(0, 1): 
         j = dic_embed[queryresult['matches'][x]['id']]
         answer_context += j + '\n'
 
@@ -96,12 +96,15 @@ def main():
         st.session_state.conversation = []
 
     # Multi-line prompt and multi-line text input
-    prompt = """Hi, I'm AI-CADEMIC, your go-to assistant for querying academic articles on generative AI. 
+    prompt = """Hi, I'm AI-CADEMIC. 
+    Your go-to assistant for querying academic articles on generative AI. 
     
-    Ask me a question about generative AI, and I'll provide you with insights from the latest cutting-edge academic materials.
-    
-    Whether you're seeking information on attention mechanisms, challenges in large language models, or multimodal AI, I've got you covered!"""
+    Ask me a question about generative AI, 
+    and I'll provide you with insights from relevant academic materials.
+    """
 
+    #Whether you're seeking information on attention mechanisms, challenges in large language models, or multimodal AI, I've got you covered!
+    
     user_input = st.text_area(prompt)
 
     # Button to submit text

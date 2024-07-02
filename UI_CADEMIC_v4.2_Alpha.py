@@ -69,7 +69,7 @@ def get_llm_answer(question, context, queryresult):
     answer_context = ""
     for x in range(0, 1): 
         j = dic_embed[queryresult['matches'][x]['id']]
-        answer_context += j + '\n'
+        answer_context += j  #+ '\n'
 
     return answer_context
 
@@ -109,19 +109,12 @@ def main():
 
     # Button to submit text
     if st.button("Submit"):
-        if user_input:
-            # Append user input to conversation
-            st.session_state.conversation.append(("User", user_input))
+        with st.spinner("Racking my brain.."):
+            response=process_text(user_input)
 
-            with st.spinner("Racking my brain.."):
-                response = process_text(user_input)
-
-            # Append AI response to conversation
-            st.session_state.conversation.append(("AI-CADEMIC", response))
-
-    # Display the conversation in chat-like format
-    for speaker, text in st.session_state.conversation:
-        st.write(f"**{speaker}:** {text}")
+        # display response
+        st.write('Response: ',response)
+            
 
 if __name__ == '__main__':
     main()

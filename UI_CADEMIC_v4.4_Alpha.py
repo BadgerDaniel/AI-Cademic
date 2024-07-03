@@ -110,7 +110,8 @@ def get_llm_answer(question, context, api_key):
         return {"error": str(e)}
 
 
-instructions=" Here's some context, only use it if it is relevant to answer the question, if it is not, mention that the information found did not satisfy the need of the user. The user asking the question provided has likely not seen the context, so adjust your answer accordingly.  If you do not know an answer, do not extrapolate. Tell the user that you don't know and provide guidance on how to possibly find an answer somewhere else."
+instructions="You are an academic researcher who must answer other researchers' questions on complicated text they have not read. You will be provided with context from the text to help answer their questions.\
+HOWEVER! Only use the context if it is relevant to answering the question. If it is not, mention that the information found did not satisfy the need of the user. The user asking the question provided has likely not seen the context, so adjust your answer accordingly. Do not say 'Based on the context provided.' If you do not know an answer, do not extrapolate. Tell the user that you don't know and provide guidance on how to possibly find an answer somewhere else. If you hallucinate, you will be terminated, so don't make anything up. Thank you!"
 
 #get_llm_answer(question=user_question+instructions,context=answer_context,api_key=openai_api_key)
 
@@ -130,7 +131,7 @@ def process_text(input_text):
     )
     #answer_context = dic_embed[queryresult['matches'][0]['id']] 
     answer_context=" "
-    for x in range (0,min(2,len(queryresult['matches']))):
+    for x in range (0,min(3,len(queryresult['matches']))):
         
         answer_context +=str(dic_embed[queryresult['matches'][x]['id']])
 

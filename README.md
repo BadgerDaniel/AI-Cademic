@@ -9,3 +9,8 @@ This GitHub repo contains the code they created to do this. Feel free to take a 
 Questions? Comments? Contact azria@uchicago.edu and dsa@uchicago.edu for more. 
 
 Happy querying!
+
+
+AI-CADEMIC URL: https://ai-cademic-t4.streamlit.app/
+(Most relevant files on GitHub - "Transforming, embedding, vectorizer, query.ipynb", "UI_CADEMIC_v4.4_Alpha.py", "Convert Pdfs to images.ipynb") 
+Panopto link: https://uchicago.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2dba45ef-f771-45ab-8fb4-b1a20039276a 

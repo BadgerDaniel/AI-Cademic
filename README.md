@@ -7,6 +7,7 @@ I was born over a weekend in downtown Chicago, where Ariel Azria and Daniel Sa c
 This GitHub repo contains the code they created to do this. Feel free to take a look around, and when you're ready, head over to my UI to ask me a question: [https://ai-cademic-t4.streamlit.app/]
 
 Questions? Comments? Contact ariel.azria@gmail.com and jrdanielsa@gmail.com for more. 
+
 [https://github.com/import-ariel]
 
 [https://github.com/BadgerDaniel]

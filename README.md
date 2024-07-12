@@ -8,6 +8,7 @@ This GitHub repo contains the code they created to do this. Feel free to take a 
 
 Questions? Comments? Contact ariel.azria@gmail.com and jrdanielsa@gmail.com for more. 
 [https://github.com/import-ariel]
+
 [https://github.com/BadgerDaniel]
 
 Happy querying!

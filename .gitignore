@@ -1,0 +1,5 @@
+# OCR ingestion working files (page images, raw model output) and its venv
+ocr_output/
+ocr_output_*/
+.venv-ocr/
+__pycache__/
